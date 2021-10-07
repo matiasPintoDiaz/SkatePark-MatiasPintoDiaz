@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  </head>
+  <body>
+    <h1>Skate Park</h1>
+
+    <div class="py-4">
+      <h2>Administración</h2>
+      <hr class="w-50" />
+
+      <table class="table w-50 m-auto">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Años de experiencia</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each skaters}}
+          <tr>
+            <td>{{@index}}</td>
+            <td><img src="/imgs/imagen-{{this.foto}}-{{this.nombre}}.jpg" width="50"</td>
+            <td>{{this.nombre}}</td>
+            <td>{{this.anos_experiencia}}</td>
+            <td>{{this.especialidad}}</td>
+            <td><input type="checkbox"{{#if this.estado}} checked {{/if}} onclick="cambiarEstadoSkater({{this.id}}, this)"></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+
+<script>
+  const cambiarEstadoSkater = async(id,e) => {
+    console.log('e', e.checked);
+    const estado = e.checked;
+
+    try{
+      await axios.put("http://localhost:3000/skaters", {id, estado});
+      alert(estado ? "Aprobado" : "En revisión");
+    } catch (error){
+      console.log(error);
+      alert(error);
+    }
+  }
+</script>
